@@ -1,4 +1,10 @@
+@font-face {
+  font-family: "Avenixel";
+  src: url("./resources/Avenixel-Regular.ttf") format("truetype");
+}
+
 body {
-  /*background: url("./resources/background.png") no-repeat 50% fixed;
-  background-size: cover;*/
+  background: url("./resources/background.png") no-repeat 50% fixed;
+  background-size: cover;
+  font-family: Avenixel, sans-serif;
 }

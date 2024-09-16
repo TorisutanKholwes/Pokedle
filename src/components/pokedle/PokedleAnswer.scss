@@ -1,0 +1,57 @@
+.pokemon-answer {
+  display: flex;
+
+  width: max-content;
+  margin: 20px auto;
+  padding: 5px;
+  border: solid 2px black;
+  background: white;
+
+  & div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:not(:first-child) {
+      border: solid 1px black;
+    }
+    &:first-child {
+      margin-left: 10px;
+    }
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+  }
+  & img {
+    width: 56px;
+    height: 56px;
+  }
+   & p {
+     margin: 0;
+     padding: 0;
+   }
+}
+
+.correct {
+    background-color: rgb(70, 217, 48);
+}
+
+.wrong {
+    background-color: rgb(217, 48, 48);
+}
+
+.mid {
+    background-color: rgb(237, 159, 43);
+}
+
+.arrow {
+  position: absolute;
+  filter: opacity(0.3);
+
+
+  &.less {
+    transform: rotate(90deg);
+  }
+  &.more {
+    transform: rotate(-90deg);
+  }
+}

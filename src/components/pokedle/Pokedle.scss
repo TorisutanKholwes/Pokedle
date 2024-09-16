@@ -1,7 +1,38 @@
+#title {
+    text-align: center;
+    font-size: 40px;
+    margin-top: 20px;
+}
+
 #genlist {
   display: flex;
   justify-content: center;
   & img {
+    cursor: pointer;
+  }
+}
+
+#pokemon-list {
+  display: none;
+  position: absolute;
+  height: 400px;
+  width: 204px;
+  border-collapse: collapse;
+  overflow: auto;
+  border: solid 2px black;
+  background: white;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.pokemon-list-element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background: rgb(154, 154, 154);
     cursor: pointer;
   }
 }
@@ -24,4 +55,35 @@
 
 .starter:not(.active) {
   filter: grayscale(1);
+}
+
+#input-div {
+  & input {
+    border: solid 2px black;
+    outline: none;
+    width: 200px;
+    height: 30px;
+  }
+  padding: 40px;
+  display: block;
+  text-align: center;
+}
+
+#category {
+  display: flex;
+  justify-content: space-evenly;
+  width: 591px;
+  margin: 0 auto;
+  background: white;
+  border: solid 2px black;
+
+   & p {
+     width: 62px;
+     text-align: center;
+     text-decoration: underline 2px;
+     &:last-child {
+       padding-right: 10px;
+     }
+   }
+
 }
