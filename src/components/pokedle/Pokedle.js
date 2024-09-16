@@ -189,13 +189,7 @@ export default class Pokedle extends React.Component {
                 <p>Taux de capture</p>
                 <p>Génération</p>
             </div>
-            <div id="poke-answer">
-                <PokedleAnswer pokemonId={6} goodAnswerId={this.randomPokemonId}/>
-                <PokedleAnswer pokemonId={383} goodAnswerId={this.randomPokemonId}/>
-                <PokedleAnswer pokemonId={364} goodAnswerId={this.randomPokemonId}/>
-                <PokedleAnswer pokemonId={229} goodAnswerId={this.randomPokemonId}/>
-                <PokedleAnswer pokemonId={this.randomPokemonId} goodAnswerId={this.randomPokemonId}/>
-            </div>
+            <div id="poke-answer"/>
         </div>
         );
     }
