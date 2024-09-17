@@ -217,6 +217,8 @@ export default class Pokedle extends React.Component {
                     <p>Stade évolution</p>
                     <p>Entièrement évolué</p>
                     <p>Taux de capture</p>
+                    <p>Poids</p>
+                    <p>Taille</p>
                     <p>Génération</p>
                 </div>
                 <div id="poke-answer"/>

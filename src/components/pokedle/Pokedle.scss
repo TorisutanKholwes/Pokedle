@@ -73,7 +73,7 @@
 #category {
   display: flex;
   justify-content: space-evenly;
-  width: 591px;
+  width: 742px;
   margin: 0 auto;
   background: white;
   border: solid 2px black;
@@ -89,7 +89,7 @@
 
 }
 
-@for $i from 3 through 8 {
+@for $i from 3 through 10 {
   $time: 0.6s;
     #last-choice div:nth-child(#{$i}) {
       opacity: 0;

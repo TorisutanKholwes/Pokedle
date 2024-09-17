@@ -35,6 +35,9 @@ export default class PokedleAnswer extends React.Component {
 
     render() {
         const random = Math.floor(Math.random() * 50) + 1;
+        const getFloat = (info) => {
+            return parseFloat(info.split(" ")[0].replace(",", "."))
+        }
         let imageUrl = (random === 1) ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${this.pokemonId}.png` : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${this.pokemonId}.png`;
         const { data, goodAnswerData } = this.state;
         let type1 = data.types && goodAnswerData.types ? data.types[0].name === goodAnswerData.types[0].name ? "correct" : goodAnswerData.types.length === 2 && goodAnswerData.types[1].name === data.types[0].name ? "mid" : "wrong" : "wrong";
@@ -53,6 +56,12 @@ export default class PokedleAnswer extends React.Component {
 
         let catchRate = data.catch_rate && goodAnswerData.catch_rate ? data.catch_rate === goodAnswerData.catch_rate ? "correct" : "wrong" : "wrong";
         let catchRateDiff = (catchRate === "wrong") ? (data.catch_rate && goodAnswerData.catch_rate ? data.catch_rate - goodAnswerData.catch_rate > 0 ? "less" : "more" : "") : ""
+
+        let weight = data.weight && goodAnswerData.weight ? getFloat(data.weight) === getFloat(goodAnswerData.weight) ? "correct" : "wrong" : "wrong";
+        let weightDiff = (weight === "wrong") ? (data.weight && goodAnswerData.weight ? getFloat(data.weight) - getFloat(goodAnswerData.weight) > 0 ? "less" : "more" : "") : ""
+
+        let height = data.height && goodAnswerData.height ? getFloat(data.height) === getFloat(goodAnswerData.height) ? "correct" : "wrong" : "wrong";
+        let heightDiff = (height === "wrong") ? (data.height && goodAnswerData.height ? getFloat(data.height) - getFloat(goodAnswerData.height) > 0 ? "less" : "more" : "") : ""
 
         let gen = data.generation && goodAnswerData.generation ? data.generation === goodAnswerData.generation ? "correct" : "wrong" : "wrong";
         let genDiff = (gen === "wrong") ? (data.generation && goodAnswerData.generation ? data.generation - goodAnswerData.generation > 0 ? "less" : "more" : "") : ""
@@ -78,6 +87,14 @@ export default class PokedleAnswer extends React.Component {
             <div className={`poke-catchrate ${catchRate} ${catchRateDiff} poke-hide`}>
                 {data.catch_rate ? data.catch_rate : ""}
                 {catchRateDiff !== "" ? <img className={`arrow ${catchRateDiff}`} src={arrow} alt={"Arrow"} /> : "" }
+            </div>
+            <div className={`poke-weight ${weight} ${weightDiff}`}>
+                {data.weight ? getFloat(data.weight) : ""}
+                {weightDiff !== "" ? <img className={`arrow ${weightDiff}`} src={arrow} alt={"Arrow"} /> : "" }
+            </div>
+            <div className={`poke-height ${height} ${heightDiff}`}>
+                {data.height ? getFloat(data.height) : ""}
+                {heightDiff !== "" ? <img className={`arrow ${heightDiff}`} src={arrow} alt={"Arrow"} /> : "" }
             </div>
             <div className={`poke-generation ${gen} ${genDiff} poke-hide`}>
                 {data.generation ? data.generation : ""}
