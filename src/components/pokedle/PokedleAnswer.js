@@ -14,11 +14,15 @@ export default class PokedleAnswer extends React.Component {
         }
         this.pokemonId = props.pokemonId;
         this.goodAnswerId = props.goodAnswerId;
+        this.id = props.id;
 
     }
 
     componentDidMount() {
         this.fetchData();
+        setTimeout(() => {
+            console.log(document.getElementsByClassName("poke-type1")[0].innerHTML);
+        }, 175)
     }
 
     fetchData = async () => {
@@ -53,29 +57,29 @@ export default class PokedleAnswer extends React.Component {
         let gen = data.generation && goodAnswerData.generation ? data.generation === goodAnswerData.generation ? "correct" : "wrong" : "wrong";
         let genDiff = (gen === "wrong") ? (data.generation && goodAnswerData.generation ? data.generation - goodAnswerData.generation > 0 ? "less" : "more" : "") : ""
 
-        return <div className="pokemon-answer">
+        return <div className="pokemon-answer" id={this.id}>
             <div className="poke-name">{data.name ? data.name.fr : ""}</div>
             <div className="poke-image">
                 <img src={`${imageUrl}`} alt=""/>
             </div>
-            <div className={`poke-type1 ${type1}`}>
+            <div className={`poke-type1 ${type1} poke-hide`}>
                 {data.types ? data.types[0].name : ""}
             </div>
-            <div className={`poke-type2 ${type2}`}>
+            <div className={`poke-type2 ${type2} poke-hide`}>
                 {data.types && data.types.length === 2 ? data.types[1].name : "Aucun"}
             </div>
-            <div className={`poke-evolution-stade ${evolutionStade} ${evolutionStadeDiff}`}>
+            <div className={`poke-evolution-stade ${evolutionStade} ${evolutionStadeDiff} poke-hide`}>
                 {data.evolution ? data.evolution.pre ? data.evolution.pre.length+1 : "1" : "1"}
                 {evolutionStadeDiff !== "" ? <img className={`arrow ${evolutionStadeDiff}`} src={arrow} alt={"Arrow"} /> : "" }
             </div>
-            <div className={`poke-is-end-evolution ${endEvolution}`}>
+            <div className={`poke-is-end-evolution ${endEvolution} poke-hide`}>
                 {data.evolution ? data.evolution.next ? "Non" : "Oui" : "Oui"}
             </div>
-            <div className={`poke-catchrate ${catchRate} ${catchRateDiff}`}>
+            <div className={`poke-catchrate ${catchRate} ${catchRateDiff} poke-hide`}>
                 {data.catch_rate ? data.catch_rate : ""}
                 {catchRateDiff !== "" ? <img className={`arrow ${catchRateDiff}`} src={arrow} alt={"Arrow"} /> : "" }
             </div>
-            <div className={`poke-generation ${gen} ${genDiff}`}>
+            <div className={`poke-generation ${gen} ${genDiff} poke-hide`}>
                 {data.generation ? data.generation : ""}
                 {genDiff !== "" ? <img className={`arrow ${genDiff}`} src={arrow} alt={"Arrow"} /> : "" }
             </div>

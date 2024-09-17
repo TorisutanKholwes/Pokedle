@@ -3,6 +3,17 @@
   src: url("./resources/Avenixel-Regular.ttf") format("truetype");
 }
 
+@keyframes flipInY {
+    from {
+        transform: rotateY(90deg);
+        opacity: 0;
+    }
+    to {
+        transform: rotateY(0deg);
+        opacity: 1;
+    }
+}
+
 body {
   background: url("./resources/background.png") no-repeat 50% fixed;
   background-size: cover;

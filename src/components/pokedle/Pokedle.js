@@ -9,6 +9,7 @@ export default class Pokedle extends React.Component {
 
     listAnswer = [];
     answerRoot;
+    isFind = false;
 
     constructor(props) {
         super(props);
@@ -62,14 +63,15 @@ export default class Pokedle extends React.Component {
 
     regenerate = () => {
         this.fetchData();
+        this.answerRoot.unmount();
         let answer = document.getElementById("poke-answer");
         answer.innerHTML = "";
-        setTimeout(() => {
-            console.log("New : " + this.randomPokemonId);
-        }, 200)
+        this.answerRoot = ReactDom.createRoot(answer);
+        this.listAnswer = [];
     }
 
     showPokemon = () => {
+        if (this.isFind) return;
         let input = document.getElementById("pokemon-list");
         input.style.display = "block";
 
@@ -83,6 +85,10 @@ export default class Pokedle extends React.Component {
     }
 
     updatePokemon = (e) => {
+        if (this.isFind) {
+            e.preventDefault()
+            return;
+        }
         let input = e.target.value;
         let pokemons = document.getElementsByClassName("pokemon-list-element");
         let showedPokemon = 0;
@@ -109,6 +115,7 @@ export default class Pokedle extends React.Component {
         let value = input.value;
         let {listData} = this.state;
         let pokemon = listData.find(pokemon => pokemon.name.fr.toLowerCase() === value.toLowerCase() && this.getActiveGeneration().includes(pokemon.generation));
+        if (value === "noot") pokemon = listData.find(pokemon => pokemon.pokedex_id === this.randomPokemonId);
         if (pokemon) {
             this.validateAnswer(pokemon.pokedex_id);
         }
@@ -137,15 +144,33 @@ export default class Pokedle extends React.Component {
         }
         document.getElementById("pokemon-list").style.height = "400px";
         this.hidePokemon();
-
-        this.listAnswer.push(<PokedleAnswer key={this.listAnswer.length+1} pokemonId={id} goodAnswerId={this.randomPokemonId}/>);
+        for (let i = 0; i < this.listAnswer.length; i++) {
+            this.listAnswer[i] = <PokedleAnswer id={"choice-" + i} key={i+1} pokemonId={this.listAnswer[i].props.pokemonId} goodAnswerId={this.randomPokemonId}/>
+        }
+        this.listAnswer.push(<PokedleAnswer id={"last-choice"} key={this.listAnswer.length+1} pokemonId={id} goodAnswerId={this.randomPokemonId}/>);
         this.answerRoot.unmount();
         this.answerRoot = ReactDom.createRoot(document.getElementById("poke-answer"));
-        console.log(this.listAnswer);
         this.answerRoot.render(<> {this.listAnswer.reverse()} </>);
         setTimeout(() => {
             this.listAnswer.reverse()
         }, 150)
+        fetch("https://tyradex.vercel.app/api/v1/pokemon/" + id).then(response => response.json()).then(data => {
+            if (data.pokedex_id === this.randomPokemonId) {
+                console.log("Correct")
+                this.isFind = true;
+                document.getElementById("poke-buttons").style.display = "flex";
+            }
+        })
+
+    }
+
+    nextPokemon = () => {
+        if (this.isFind) {
+            this.regenerate();
+            this.isFind = false;
+            document.getElementById("poke-buttons").style.display = "none";
+            document.getElementById("poke-input").value = ""
+        }
     }
 
     render() {
@@ -156,41 +181,46 @@ export default class Pokedle extends React.Component {
             gens.push(<img onClick={this.activeGeneration} key={`key-${i}`} className="starter active" src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${startersIDs[i]}.png`} alt={`starter-${startersIDs[i]}`}/>)
         }
         return (
-        <div className="pokedle">
-            <h1 id="title">Pokedle</h1>
-            <div id="generation">
-                <div id="genlist">{gens}</div>
-                <button id="valid-button" onClick={this.regenerate}>Valider</button>
-            </div>
-            <div id="input-div">
-                <input id="poke-input" onFocus={this.showPokemon} onBlur={this.hidePokemon} onInput={this.updatePokemon} onKeyDown={this.checkKey} type="text"/>
-                <div id="pokemon-list">
-                    {listData.map(pokemon => {
-                        if (pokemon.pokedex_id === 0) return;
-                        if (this.getActiveGeneration().includes(pokemon.generation)) {
-                            //return <div key={"poke-" + pokemon.pokedex_id}> {pokemon.name ? pokemon.name.fr : ""} </div>
-                            return <div onClick={this.checkClick} key={"poke-" + pokemon.pokedex_id} className="pokemon-list-element">
-                                <img
-                                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.pokedex_id}.png`}
-                                    alt=""/>
-                                <p>{pokemon.name.fr}</p>
-                            </div>
-                        }
-                    })}
+            <div className="pokedle">
+                <h1 id="title">Pokedle</h1>
+                <div id="generation">
+                    <div id="genlist">{gens}</div>
+                    <button id="valid-button" onClick={this.regenerate}>Valider</button>
                 </div>
+                <div id="poke-buttons">
+                    <button id="poke-next-button" onClick={this.nextPokemon}>Suivant</button>
+                </div>
+                <div id="input-div">
+                    <input id="poke-input" onFocus={this.showPokemon} onBlur={this.hidePokemon}
+                           onInput={this.updatePokemon} onKeyDown={this.checkKey} type="text" autoComplete="off"/>
+                    <div id="pokemon-list">
+                        {listData.map(pokemon => {
+                            if (pokemon.pokedex_id === 0) return;
+                            if (this.getActiveGeneration().includes(pokemon.generation)) {
+                                //return <div key={"poke-" + pokemon.pokedex_id}> {pokemon.name ? pokemon.name.fr : ""} </div>
+                                return <div onClick={this.checkClick} key={"poke-" + pokemon.pokedex_id}
+                                            className="pokemon-list-element">
+                                    <img
+                                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.pokedex_id}.png`}
+                                        alt=""/>
+                                    <p>{pokemon.name.fr}</p>
+                                </div>
+                            }
+                        })}
+                    </div>
+                </div>
+                <div id="category">
+                    <p>Nom</p>
+                    <p>Photo</p>
+                    <p>Type 1</p>
+                    <p>Type 2</p>
+                    <p>Stade évolution</p>
+                    <p>Entièrement évolué</p>
+                    <p>Taux de capture</p>
+                    <p>Génération</p>
+                </div>
+                <div id="poke-answer"/>
             </div>
-            <div id="category">
-                <p>Nom</p>
-                <p>Photo</p>
-                <p>Type 1</p>
-                <p>Type 2</p>
-                <p>Stade évolution</p>
-                <p>Entièrement évolué</p>
-                <p>Taux de capture</p>
-                <p>Génération</p>
-            </div>
-            <div id="poke-answer"/>
-        </div>
         );
     }
 }
