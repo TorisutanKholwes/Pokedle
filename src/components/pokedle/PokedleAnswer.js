@@ -89,11 +89,11 @@ export default class PokedleAnswer extends React.Component {
                 {catchRateDiff !== "" ? <img className={`arrow ${catchRateDiff}`} src={arrow} alt={"Arrow"} /> : "" }
             </div>
             <div className={`poke-weight ${weight} ${weightDiff}`}>
-                {data.weight ? getFloat(data.weight) : ""}
+                {data.weight ? getFloat(data.weight) + " kg" : ""}
                 {weightDiff !== "" ? <img className={`arrow ${weightDiff}`} src={arrow} alt={"Arrow"} /> : "" }
             </div>
             <div className={`poke-height ${height} ${heightDiff}`}>
-                {data.height ? getFloat(data.height) : ""}
+                {data.height ? getFloat(data.height) + " m" : ""}
                 {heightDiff !== "" ? <img className={`arrow ${heightDiff}`} src={arrow} alt={"Arrow"} /> : "" }
             </div>
             <div className={`poke-generation ${gen} ${genDiff} poke-hide`}>
