@@ -3,6 +3,11 @@
   src: url("./resources/Avenixel-Regular.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "PicoBlack";
+  src: url("./resources/Minecraftia.ttf") format("truetype");
+}
+
 @keyframes flipInY {
     from {
         transform: rotateY(90deg);
@@ -15,7 +20,5 @@
 }
 
 body {
-  background: url("./resources/background.png") no-repeat 50% fixed;
-  background-size: cover;
-  font-family: Avenixel, sans-serif;
+  margin: 0;
 }

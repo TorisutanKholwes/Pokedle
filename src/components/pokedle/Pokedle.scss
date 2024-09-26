@@ -1,7 +1,16 @@
+.pokedle {
+  background: url("../../resources/background.png") no-repeat 50% fixed;
+  background-size: cover;
+  font-family: Avenixel, sans-serif;
+  width: 100vw;
+    height: 100vh;
+}
+
 #title {
-    text-align: center;
-    font-size: 40px;
-    margin-top: 20px;
+  padding: 0;
+  text-align: center;
+  font-size: 40px;
+  margin-top: 0;
 }
 
 #genlist {

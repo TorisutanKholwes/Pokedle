@@ -6,6 +6,7 @@ export default class HomePage extends React.Component {
         return <div>
             <h1>Home Page</h1>
             <Link to="/pokedle">Pokedle Solo</Link>
+            <Link to="/mort">Compteur de Mort</Link>
         </div>
     }
 }
